@@ -1,5 +1,7 @@
 #include<string>
+#include <sstream>
 #include"Paciente.h"
+
 using namespace std;
 
 
@@ -8,15 +10,33 @@ Paciente::Paciente() {}
 Paciente::Paciente(const string &cedula, const string &nombre, const string &apellido, char sexo,
                    const string &direccion, const string &patologia, const string &tipoCirugia, const string &estado,
                    const string &prioridad, int fechaCirugia, Cama *pCama, Doctor *pDoctor) :
-                   cedula(cedula),nombre(nombre),apellido(apellido),sexo(sexo),direccion(direccion),patologia(patologia),
-                   tipoCirugia(tipoCirugia),estado(estado),prioridad(prioridad),fechaCirugia(fechaCirugia),
-                   pCama(pCama),pDoctor(pDoctor) {}
+        cedula(cedula), nombre(nombre), apellido(apellido), sexo(sexo), direccion(direccion), patologia(patologia),
+        tipoCirugia(tipoCirugia), estado(estado), prioridad(prioridad), fechaCirugia(fechaCirugia),
+        pCama(pCama), pDoctor(pDoctor) {}
 
 
 Paciente::Paciente(Paciente **pPaciente, int cantidad, int tamano) : pPaciente(pPaciente), cantidad(cantidad),
-                                                                     tamano(tamano) {}
-//Destructor
-Paciente::~Paciente() {}
+                                                                     tamano(tamano) {
+
+    tamano = MAXPACIENTE;
+    pPaciente = new Paciente *[tamano];
+    cantidad = 0;
+    for (int i = 0; i < tamano; i++) {
+
+        pPaciente[i] = NULL;
+
+    }
+
+}
+
+Paciente::~Paciente() {
+
+    for (int i = 0; i < tamano; i++) {
+
+        delete pPaciente[i];
+    }
+    delete[]pPaciente;
+}
 
 
 //PACIENTE
@@ -85,7 +105,7 @@ char Paciente::getSexo() const {
 }
 
 void Paciente::setSexo(char sexo) {
-    Paciente::sexo = sexo;
+    Paciente::sexo =sexo;
 }
 
 //DIRECCION
@@ -169,14 +189,34 @@ void Paciente::setPDoctor(Doctor *pDoctor) {
 }
 
 
-string paciente::tostring(){
-	stringstream p;
-	p<<"paciente: "<<nombre<<"\n";
-	p<<"cedula: "<<cedula<<"\n";
-	p<<"cama: "<<cama<<"\n";
-	p<<"doctor: "<<doctor<<"\n";
-	return p.str();
+string Paciente::tostring(){
+	stringstream a;
+	a<<"Paciente: "<<nombre<<" "<<apellido;
+	a<<"Cedula: "<<cedula<<"\n";
+	a<< "Sexo: " << sexo<<"\n";
+	a<< "Direccion: " << direccion << "\n";
+	a<< "Patologia: " << patologia << "\n";
+	a<< "Tipo de Cirugia: " << patologia <<"\n";
+	a<< "Estado: " << estado << "\n";
+	a<< "Prioridad: " << prioridad << "\n";
+	a<< "Fecha de Cirugia" << fechaCirugia << "\n";
+	if (pCama != NULL) {
+		a << "Cama asignada al Paciente: " << pCama->getCodigo() << "\n";
+	}
+	else {
+		a << "Cama asignada al Paciente: " << pCama << "\n";
+	}
+	a << "Cama asignada al Paciente: " << pCama->getCodigo() << "\n";
+	a << "Doctor asignado al Paciente: " << pDoctor << "\n";
+
+	return a.str();
 }
+
+void Paciente::cambiarCama(Cama* nuevaCama) {
+	pCama->setEPaciente(NULL);
+	pCama = nuevaCama;
+}
+
 
 
 

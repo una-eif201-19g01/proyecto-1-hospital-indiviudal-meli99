@@ -1,25 +1,29 @@
-#include<iostream>
 #include<string>
-#include<sstream>
 #include"Cama.h"
+#include<sstream>
+#include<iostream>
 
-using ::std::string;
+using namespace std;
 
-<<<<<<< HEAD
-Cama::Cama() {
-    setCodigo(" ");
-    setEstado("");
-}
-=======
+
 Cama::Cama() {}
 
-Cama::Cama(int cantidad, int tamano, Cama **pCama) : cantidad(cantidad), tamano(tamano), pCama(pCama) {}
->>>>>>> 0bc6962a387566443391c828bbbbe42171d6d423
+Cama::Cama(int cantidad, int tamano, Cama **pCama) : cantidad(cantidad), tamano(tamano), pCama(pCama) {
+    tamano = 0;
+    pCama = new Cama *[tamano];
+    cantidad = 0;
+    for (int i = 0; i < tamano; i++) {
+        pCama[i] = NULL;
+    }
+}
+
 
 Cama::Cama(const string &codigo, bool estado, Paciente *ePaciente) : codigo(codigo), estado(estado),
                                                                      ePaciente(ePaciente) {}
 
-Cama::~Cama() {}
+Cama::~Cama() {
+    delete[] pCama;
+}
 
 int Cama::getCantidad() const {
     return cantidad;
@@ -67,5 +71,86 @@ void Cama::setEstado(bool estado) {
 
 void Cama::setEPaciente(Paciente *ePaciente) {
     Cama::ePaciente = ePaciente;
+}
+
+void Cama::agregar(Cama *pCam) {
+    pCama[cantidad++] = pCam;
+}
+
+Cama *Cama::buscarCama(string codigo) {
+    for (int cam = 0; cam < cantidad; cam++)
+        if ((pCama[cam]->getCodigo() == codigo) && !pCama[cam]->isEstado())
+            return pCama[cam];
+}
+
+void Cama::eliminarCama(Cama *pCam) {
+
+    for (int i = 0; i < cantidad; i++) {
+        if (pCama[i]->getCodigo() == pCam->getCodigo()) {
+            for (int z = 1; z < cantidad; z++) {
+                pCama[z] = pCama[z + 1];
+            }
+            cantidad--;
+            break;
+        }
+    }
+}
+
+
+void Cama::cambiarCama(string codex) {
+
+    for (int i = 0; i < cantidad; i++) {
+        if (pCama[i]->getCodigo() == codex && pCama[i]->isEstado() == false) {
+            pCama[i]->setEstado(true);
+        }
+    }
+}
+
+
+string Cama::toStringCama() {
+    stringstream c;
+    c << "Cama por Codigo: \n";
+    for (int cama = 0; cama < cantidad; cama++) {
+        c << "Codigo: ";
+        c << pCama[cama]->toStringCama();
+    }
+    return c.str();
+}
+
+string Cama::disponibilidad() {
+
+    stringstream z;
+    z << "CAMAS DISPONIBLES: ";
+    for (int i = 0; i < cantidad; i++) {
+        if (pCama[i]->isEstado() == false) {
+            z << pCama[i]->toStringCama();
+        }
+
+    }
+    z << "CAMAS OCUPADAS:  ";
+    for (int i = 0; i < cantidad; i++) {
+        if (pCama[i]->isEstado() == true) {
+            z << pCama[i]->toStringCama();
+        }
+    }
+    return z.str();
+}
+
+string Cama::toString() { //TERMINAR!!!!!!!!!
+
+    stringstream p;
+    p << codigo << "\n";
+    p << "ESTADO DE LA CAMA:  ";
+    if (ePaciente != NULL) {
+        estado = true;
+    }
+    if (estado == false) {
+
+        p << "Disponible" << "\n";
+    } else
+        p << "Ocupado" << "\n";
+    p << "Paciente:    ";
+
+    return std::string();
 }
 

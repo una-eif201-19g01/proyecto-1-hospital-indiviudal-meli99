@@ -1,53 +1,78 @@
-#include"Pabellon.h"
-using namespace std;
+#ifndef PABELLON_H
+#define PABELLON_H
 
-Pabellon::Pabellon(){
-    _cantidad = 0;
-    _camas = 0;
-    _genero = 'M';
-}
+#include <string>
+#include "Cama.h"
 
-Pabellon::Pabellon(char genero){
-    _cantidad = 0;
-    _camas = 0;
-    _genero = genero;
-}
 
-Pabellon::~Pabellon() {}
+class Cama;
 
-std::string Pabellon::getPabellon(){
-    return "Pabellón!!!";
-}
+int const MAXIMOPABE = 10;
 
-int Pabellon::getCantidad() const{
-    return _cantidad;
-}
+class Pabellon{
 
-void Pabellon::setCantidad(int cantidad){
-    _cantidad = cantidad;
-}
+private:
 
-int Pabellon::getNumeroDeCamas(){
-    return _camas;
-}
+    char iD;
+    string genero;
+    int numCamas;
+    Cama *pCama;
+    int cantidad;
+    int tamano;
+    Pabellon **pPabellon;
 
-void Pabellon::setNumeroDeCamas(int camas){
-    _camas = camas;
-}
+public:
 
-int Pabellon::getGenero() const{
-    return _genero;
-}
+    Pabellon(char iD, const string &genero, int numCamas, Cama *pCama);
 
-void Pabellon::setGenero(char genero){
-    _genero = genero;
-}
+    Pabellon(int cantidad, int tamano, Pabellon **pPabellon);
 
-bool Pabellon::addPabellon(char genero){
-    if (_cantidad >= 10) {
-        return false;
-    }
-    else {
-        // pPabellon[cantidad] = 
-    }
-}
+    Pabellon();
+
+    int getCantidad() const;
+
+    void setCantidad(int cantidad);
+
+    int getTamano() const;
+
+    void setTamano(int tamano);
+
+    Pabellon **getPPabellon() const;
+
+    void setPPabellon(Pabellon **pPabellon);
+
+    virtual ~Pabellon();
+
+    char getId() const;
+
+    const string &getGenero() const;
+
+    int getNumCamas() const;
+
+    Cama *getPCama() const;
+
+    void setId(char iD);
+
+    void setGenero(const string &genero);
+
+    void setNumCamas(int numCamas);
+
+    void setPCama(Cama *pCama);
+
+	void agregar(Pabellon* pPa);
+
+    void eliminar(int indice);
+
+	Pabellon *buscarPabellon(char iDENTIFICAR, string generos);
+
+	string verCamasPorEstado();
+
+	string datosPabellon();
+
+	string toString();
+
+	string imprimeDisponiblidadDeCamas();
+
+};
+
+#endif //PABELLON_H

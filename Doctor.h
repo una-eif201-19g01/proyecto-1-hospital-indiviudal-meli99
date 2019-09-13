@@ -9,7 +9,10 @@ class Paciente;
 
 class Especialidad;
 
-class Doctor {
+class Doctor{
+
+    int const MAXDOCTORES = 20;
+
 
 private:
     Doctor **pDoctor;
@@ -53,7 +56,17 @@ public:
     void setPPaciente(Paciente *pPaciente);
 
 	virtual string tostring();
+
+	void agregar(Doctor* pDoc);
+
+	virtual void modificarArreglo(string,string);
+
+    void setPacientes(Paciente* x);
+
+    void setDoctorPA(Paciente* x);
+
+    // virtual arreglopaciente* obtenerArreglo();
+
 };
 
 #endif //DOCTOR_H
-

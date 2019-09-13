@@ -4,13 +4,30 @@
 using namespace std;
 
 
-Doctor::Doctor(Doctor **pDoctor, int cantidad, int tamano) : pDoctor(pDoctor), cantidad(cantidad), tamano(tamano) {}
+Doctor::Doctor(Doctor **pDoctor, int cantidad, int tamano) : pDoctor(pDoctor), cantidad(cantidad), tamano(tamano) {
+
+    tamano = MAXDOCTORES;
+    pDoctor = new Doctor *[tamano];
+    cantidad = 0;
+    for (int i = 0; i <tamano; i++) {
+
+        pDoctor[i] = NULL;
+    }
+}
 
 Doctor::Doctor(const string &nombre, const string &especialidad, Paciente *pPaciente) : nombre(nombre),
                                                                                         especialidad(especialidad),
                                                                                         pPaciente(pPaciente) {}
 
-Doctor::~Doctor() {}
+Doctor::~Doctor() {
+
+    tamano = MAXDOCTORES;
+    for (int i = 0; i < tamano; i++){
+
+        delete pDoctor[i];
+    }
+    delete []pDoctor;
+}
 
 Doctor **Doctor::getPDoctor() const {
     return pDoctor;
@@ -60,10 +77,27 @@ void Doctor::setPPaciente(Paciente *pPaciente) {
     Doctor::pPaciente = pPaciente;
 }
 
+string Doctor::tostring() {
+    return std::string();
+}
 
-string doctor::tostring(){
-	stringstream d;
-	d<<"Doctor: "<<nombre<<"\n";
-	d<<"Especialidad: "<<especialidad<<"\n";
-	return d.str();
+void Doctor::agregar(Doctor* pDoc) {
+	pDoctor[cantidad++] = pDoc;
+}
+
+// void Doctor::setPaciente(){
+    
+// } 
+
+void Doctor::setPacientes(Paciente* x){
+    // nuevo->agregar(x);
+    // this->setDoctorPA(x);
+}
+
+// arregloPacientes* doctor::getPacientes(){
+//     return nuevo;
+// }
+
+void Doctor::setDoctorPA(Paciente* x){
+    x->setPDoctor(this);
 }
