@@ -2,46 +2,25 @@
 #define DOCTOR_H
 
 #include <string>
-#include "Paciente.h"
+#include "arregloPaciente.h"
 #include "Especialidad.h"
 
-class Paciente;
-
+class arregloPaciente;
 class Especialidad;
-
 class Doctor{
 
-    int const MAXDOCTORES = 20;
-
-
 private:
-    Doctor **pDoctor;
-    int cantidad;
-    int tamano;
+
     std::string nombre;
     std::string especialidad;
-    Paciente *pPaciente;
+    arregloPaciente *pPaciente;
 
 
 public:
 
-    Doctor(Doctor **pDoctor, int cantidad, int tamano);
-
-    Doctor(const std::string &nombre, const std::string &especialidad, Paciente *pPaciente);
+    Doctor(const std::string &nombre, const std::string &especialidad, arregloPaciente *pPaciente);
 
     virtual ~Doctor();
-
-    Doctor **getPDoctor() const;
-
-    void setPDoctor(Doctor **pDoctor);
-
-    int getCantidad() const;
-
-    void setCantidad(int cantidad);
-
-    int getTamano() const;
-
-    void setTamano(int tamano);
 
     const std::string &getNombre() const;
 
@@ -51,22 +30,13 @@ public:
 
     void setEspecialidad(const std::string &especialidad);
 
-    Paciente *getPPaciente() const;
+    arregloPaciente *getPPaciente() const;
 
-    void setPPaciente(Paciente *pPaciente);
+    void setPPaciente(arregloPaciente *pPaciente);
 
 	virtual string tostring();
 
-	void agregar(Doctor* pDoc);
-
-	virtual void modificarArreglo(string,string);
-
-    void setPacientes(Paciente* x);
-
-    void setDoctorPA(Paciente* x);
-
-    // virtual arreglopaciente* obtenerArreglo();
-
+	void modificarArray(string);
 };
 
 #endif //DOCTOR_H

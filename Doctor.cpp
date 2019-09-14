@@ -1,56 +1,20 @@
 #include<string>
+#include <sstream>
 #include"Doctor.h"
+
 
 using namespace std;
 
 
-Doctor::Doctor(Doctor **pDoctor, int cantidad, int tamano) : pDoctor(pDoctor), cantidad(cantidad), tamano(tamano) {
+Doctor::Doctor(const string &nombre, const string &especialidad, arregloPaciente *pPaciente) : nombre(nombre),
+                                                                                               especialidad(
+                                                                                                       especialidad),
+                                                                                               pPaciente(pPaciente) {
 
-    tamano = MAXDOCTORES;
-    pDoctor = new Doctor *[tamano];
-    cantidad = 0;
-    for (int i = 0; i <tamano; i++) {
-
-        pDoctor[i] = NULL;
-    }
+    pPaciente = new arregloPaciente();
 }
-
-Doctor::Doctor(const string &nombre, const string &especialidad, Paciente *pPaciente) : nombre(nombre),
-                                                                                        especialidad(especialidad),
-                                                                                        pPaciente(pPaciente) {}
 
 Doctor::~Doctor() {
-
-    tamano = MAXDOCTORES;
-    for (int i = 0; i < tamano; i++){
-
-        delete pDoctor[i];
-    }
-    delete []pDoctor;
-}
-
-Doctor **Doctor::getPDoctor() const {
-    return pDoctor;
-}
-
-void Doctor::setPDoctor(Doctor **pDoctor) {
-    Doctor::pDoctor = pDoctor;
-}
-
-int Doctor::getCantidad() const {
-    return cantidad;
-}
-
-void Doctor::setCantidad(int cantidad) {
-    Doctor::cantidad = cantidad;
-}
-
-int Doctor::getTamano() const {
-    return tamano;
-}
-
-void Doctor::setTamano(int tamano) {
-    Doctor::tamano = tamano;
 }
 
 const string &Doctor::getNombre() const {
@@ -69,35 +33,29 @@ void Doctor::setEspecialidad(const string &especialidad) {
     Doctor::especialidad = especialidad;
 }
 
-Paciente *Doctor::getPPaciente() const {
+arregloPaciente *Doctor::getPPaciente() const {
     return pPaciente;
 }
 
-void Doctor::setPPaciente(Paciente *pPaciente) {
+void Doctor::setPPaciente(arregloPaciente *pPaciente) {
     Doctor::pPaciente = pPaciente;
 }
 
 string Doctor::tostring() {
-    return std::string();
+
+    stringstream p;
+    p << "Doctor: " << nombre << "\n";
+    p << "Especialidad: " << especialidad << "\n";
+    p << "Pacientes asignados: " << "\n";
+    p << pPaciente->toString();
+    return p.str();
 }
 
-void Doctor::agregar(Doctor* pDoc) {
-	pDoctor[cantidad++] = pDoc;
+void Doctor::modificarArray(string nombreDoc) {
+    Paciente *otroPaciente = NULL;
+    otroPaciente = new Paciente();
+    otroPaciente->setNombre(nombreDoc);
+    pPaciente->agregaPacientes(otroPaciente);
+
 }
 
-// void Doctor::setPaciente(){
-    
-// } 
-
-void Doctor::setPacientes(Paciente* x){
-    // nuevo->agregar(x);
-    // this->setDoctorPA(x);
-}
-
-// arregloPacientes* doctor::getPacientes(){
-//     return nuevo;
-// }
-
-void Doctor::setDoctorPA(Paciente* x){
-    x->setPDoctor(this);
-}
